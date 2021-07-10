@@ -1,0 +1,69 @@
+﻿@model SchoolManagementSystem.Models.School
+
+@{
+    ViewData["Title"] = "Create";
+}
+<h3 id="test">
+  
+</h3>
+<h3 id="test1">
+
+</h3>
+<h1>Create</h1>
+
+<h4>School</h4>
+<hr />
+<div class="row ">
+    <div class="col-md-4"></div>
+    <div class="col-md-4 text-center">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="SchoolName" class="control-label"></label>
+                <input asp-for="SchoolName" id="name" class="form-control" />
+                <span asp-validation-for="SchoolName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" id="address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input onclick="PostData()" type="submit"Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+<script>
+    function PostData() {
+        var name = $("#name").val();
+        var address = $("#address").val();
+        var model = {
+            "SchoolName": name,
+             "Address":address
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "https://localhost:44355/api/schoolapi",
+            data: JSON.stringify(model),
+            contentType: "application/json",
+
+            success: function (result, textStatus, xhr) {
+                $("#test1").append(result);
+                console.log(result);
+            },
+            complete: function (xhr, textstatus) {
+                $("#test").append("Response Status:"+xhr.status);
+            }
+        });
+    }
+</script>

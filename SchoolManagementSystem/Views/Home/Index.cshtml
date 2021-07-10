@@ -1,0 +1,76 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<style>
+    table,th,td{
+        border: 2px solid green;
+
+    }
+</style>
+<div class="text-center">
+    <h4 class="display-4">Welcome To School Management System</h4>
+    <div >
+        <table id="table" class="table">
+            <tr>
+                <th>School ID</th>
+                <th>School Name</th>
+                <th>Address</th>
+            </tr>
+
+        </table>
+
+    </div>
+
+   
+</div>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script >
+    //var id = document.getElementById("subjectid").value;
+    $.ajax({
+
+        type: "GET",
+        url: "https://localhost:44355/api/schoolapi",
+        //ata: JSON.stringify(model),
+        contentType: "application/json",
+
+        success: function (result) {
+            //$('#testap1').detach();
+           // $("#table").empty();
+            var datavalue = result;
+
+            var myjsonobj = datavalue;
+            contentType: "application/json";
+            //$("#table").append('<tr><th>' + "TeacherId" + '</th>' + '<th>' + "TeacherName" + '</th> <th>' + "SubjectName" + '</th></tr>');
+            $.each(myjsonobj, function (i, obj) {
+                console.log(obj);
+               // $("#table").add();
+
+
+                $("#table").append(
+
+                    '<tr> <td>' + obj.schoolId
+                    + '</td><td>' + obj.schoolName
+                    + '</td><td>' + obj.address
+                    + '</td></tr>'
+
+
+
+                );
+                $("#table").show();
+
+
+            }
+
+            );
+
+        }
+        //complete: function (xhr, textstatus) {
+        //    $("#test").append(xhr.status);
+        //    //console.log('hello');
+        //    window.location.href = "/teacher/delete";
+        //}
+
+
+
+    });
+</script>

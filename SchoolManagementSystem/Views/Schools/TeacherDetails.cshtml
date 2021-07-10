@@ -1,0 +1,87 @@
+﻿
+@{
+    ViewData["Title"] = "TeacherDetails";
+}
+<style>
+    table,th,td
+    {
+        border: 2px solid yellow;
+        width:500px;
+        margin-top:40px;
+        color:blue;
+        text-align: center;
+        
+    }
+</style>
+<h1>TeacherDetails</h1>
+
+<div class="form-group">
+    <label  class="control-label"></label>
+    <select id="subjectid" class="form-control" asp-items="@(new SelectList(ViewBag.schools,"SchoolId","SchoolName"))"></select>
+</div>
+<div class="=row text-center">
+    <button class="btn-dark" onclick="displayTeacher()"> Display Teachers</button>
+</div>
+
+    <table class="table" id="table" style="display:none;">
+        <tr>
+            <th>Teacher ID</th>
+            <th> Teacher Name</th>
+            <th> Subject Name</th>
+        </tr>
+
+    </table>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script>
+    function displayTeacher() {
+        var id = document.getElementById("subjectid").value;
+        $.ajax({
+
+            type: "GET",
+            url: "https://localhost:44355/api/schoolapi/" + id,
+            //ata: JSON.stringify(model),
+            contentType: "application/json",
+
+            success: function (result) {
+                //$('#testap1').detach();
+                $("#table").empty();
+                var datavalue = result;
+                
+                var myjsonobj = datavalue;
+                contentType: "application/json";
+                $("#table").append('<tr><th>' + "TeacherId" + '</th>' + '<th>' + "TeacherName" + '</th> <th>' + "SubjectName" + '</th></tr>');
+                $.each(myjsonobj, function (i, obj) {
+                    console.log(obj.subject.subjectName);
+                    $("#table").add();
+                   
+                    
+                    $("#table").append(
+                        
+                            '<tr> <td>' + obj.teacherId
+                            + '</td><td>' + obj.teacherName
+                            + '</td><td>' + obj.subject.subjectName
+                            + '</td></tr>'
+
+
+
+                    );
+                    $("#table").show();
+
+
+                }
+
+                );
+
+            }
+            //complete: function (xhr, textstatus) {
+            //    $("#test").append(xhr.status);
+            //    //console.log('hello');
+            //    window.location.href = "/teacher/delete";
+            //}
+
+
+
+        });
+         
+    }
+</script>

@@ -1,0 +1,71 @@
+﻿@model SchoolManagementSystem.Models.School
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h3 id="test">
+  Response Status
+</h3>
+<h3 id="test1"> </h3>
+<h1>Edit</h1>
+
+<h4>SchoolAddress</h4>
+<hr />
+<div class="row text-center jumbotron">
+    <div class="col-md-4">
+
+    </div>
+    <div class="col-md-4 text-center">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="SchoolId" id="schoolid" />
+            <div class="form-group">
+                <label asp-for="SchoolName" class="control-label"></label>
+                <input asp-for="SchoolName" id="name" class="form-control" readonly />
+                <span asp-validation-for="SchoolName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" id="address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input onclick="EditData()" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+<script>
+    function EditData() {
+        var model = {
+            "SchoolId":document.getElementById("schoolid").value,
+            "SchoolName": document.getElementById("name").value,
+            "Address": document.getElementById("address").value,
+
+
+        }
+        $.ajax({
+            type: "PUT",
+            url: "https://localhost:44355/api/schoolapi",
+            data: JSON.stringify(model),
+            contentType: "application/json",
+
+            success: function (result, textStatus, xhr) {
+                $("#test1").append(result);
+                console.log(result);
+            },
+            complete: function (xhr, textstatus) {
+                $("#test").append(xhr.status);
+            }
+        });
+    }
+</script>

@@ -1,0 +1,49 @@
+﻿
+
+
+
+@{
+    ViewData["Title"] = "DeleteTeacher";
+}
+
+
+<h1>DeleteTeacher</h1>
+
+<div class=" row jumbotron text-center">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <select id="teacherid" asp-items="@ViewBag.TeacherId">Select Teacher</select>
+        <div class="text-center" style="margin-top:40px;">
+            <button onclick="Delete()" class="btn btn-outline-danger">
+                Delete
+            </button>
+        </div>
+        
+    </div>
+
+</div>
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script>
+
+    function Delete() {
+        var id = $("#teacherid").val();
+        $.ajax({
+            type: 'Delete',
+            url: 'https://localhost:44355/api/teacherapi/' + id,
+            success: function (result,textStatus,xhr) {
+                console.log(result);
+
+            },
+            error: function (result) {
+
+            },
+            complete: function (xhr, textStatus) {
+                window.location.href = "/teachers/delete";
+            }
+
+
+        })
+    }
+</script>
+
